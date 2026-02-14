@@ -1,0 +1,23 @@
+input: one or many files
+
+in-file input separator: \n
+
+output: 3 .txt files: floats, integers, strings
+
+output location: program's directory
+
+options:
+-o: sets path for output
+-p: sets prefix for output files' names
+-a: append instead of rewrite on collision output
+-s: short statistics (how much were written in every file)
+-f: full statistics (max and min nums, avg num, longest and shortest string)
+
+default output collision behaviour: rewrite
+
+stats output: console
+no *crashes*
+if process failed, state a reason
+partial completion preferred over stop -> should write at instance, spare the RAM
+
+
