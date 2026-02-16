@@ -17,7 +17,7 @@ public class UserMessage {
                 "Please run this program with output path specified after key -o");
     }
 
-    public static void InvalidKey() {
-        System.out.println("One or many keys are invalid. Please, check your input on typos");
+    public static void InvalidKey(String key) {
+        System.out.printf("No such key %s%n", key);
     }
 }

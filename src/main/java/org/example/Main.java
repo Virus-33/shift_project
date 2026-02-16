@@ -9,11 +9,10 @@ public class Main {
     static String output_prefix = "";
 
     static boolean append_mode = false;
-    static boolean short_stats = false;
 
     static int stats_mode = 0;  // 0 - none, 1 - short, 2 - full
 
-    static int options_end = 0;
+    static String wrong_key = "";
 
     public static void main(String[] args) {
 
@@ -23,7 +22,6 @@ public class Main {
             System.exit(0);
         }
 
-        
 
     }
 
@@ -63,6 +61,7 @@ public class Main {
                     }
                 default:
                     if (opts[i].startsWith("-")) {
+                        wrong_key = opts[i];
                         return -4;
                     }
                     result = i;
@@ -87,7 +86,7 @@ public class Main {
                     UserMessage.MissingPrefix();
                     break;
                 case -4:
-                    UserMessage.InvalidKey();
+                    UserMessage.InvalidKey(wrong_key);
                     break;
             }
 
