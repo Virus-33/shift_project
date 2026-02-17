@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.*;
+import java.lang.reflect.Type;
 
 public class Main {
 
@@ -109,7 +110,17 @@ public class Main {
 
         for (String s : files) {
 
-            try(FileReader fr = new FileReader(s)) {
+            try(BufferedReader fr = new BufferedReader(new FileReader(s))) {
+
+            String line = fr.readLine();
+            if (line == null) {
+                continue;
+            }
+
+            while (line != null) {
+                define(line)
+            }
+
 
             } catch (IOException e) {
                 System.out.println(e.getMessage());
@@ -117,8 +128,22 @@ public class Main {
         }
     }
 
-    static void write_file(String value, Types type) {
+    static void write_file(File file, String value, Types type) {
 
+    }
+
+    static Types define(String value) {
+        String digits = "(-?)\\d+[eE]?-?\\d*";
+        String floats = "(-?)\\d+\\.\\d+([eE]?-?\\d*)?";
+
+        if (value.matches(digits)) {
+            return Types.Integer;
+        } else if (value.matches(floats)) {
+            return Types.Float;
+        }
+        else {
+            return Types.String;
+        }
     }
 
     enum Types {
