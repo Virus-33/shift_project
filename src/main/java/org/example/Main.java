@@ -1,7 +1,6 @@
 package org.example;
 
-import java.util.Arrays;
-import java.util.Iterator;
+import java.io.*;
 
 public class Main {
 
@@ -18,10 +17,9 @@ public class Main {
 
         int input_index = read_options(args);
 
-        if (check_errors(input_index) == 1) {
+        if (check_errors(input_index, args.length)) {
             System.exit(0);
         }
-
 
     }
 
@@ -45,6 +43,9 @@ public class Main {
                     if (i+1 < opts.length) {
                         i++;
                         output_path = opts[i];
+                        if (!output_path.endsWith("/")) {
+                            output_path += "/";
+                        }
                         break;
                     }
                     else {
@@ -72,7 +73,7 @@ public class Main {
         return result == 0 ? result : -1;
     }
 
-    static int check_errors(int res) {
+    static boolean check_errors(int res, int all) {
         if (res < 0) {
 
             switch (res){
@@ -90,9 +91,40 @@ public class Main {
                     break;
             }
 
-            return 1;
+            return true;
         }
-        return 0;
+
+        return false;
+    }
+
+    static void file_processing(String[] files) {
+
+        File ints = new File(output_path+output_prefix+"integers.txt");
+        File floats = new File(output_path+output_prefix+"floats.txt");
+        File strings = new File(output_path+output_prefix+"strings.txt");
+
+        boolean ints_created = false;
+        boolean floats_created = false;
+        boolean strings_created = false;
+
+        for (String s : files) {
+
+            try(FileReader fr = new FileReader(s)) {
+
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    static void write_file(String value, Types type) {
+
+    }
+
+    enum Types {
+        Integer,
+        Float,
+        String
     }
 
 }

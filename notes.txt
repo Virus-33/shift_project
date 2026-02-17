@@ -21,3 +21,6 @@ if process failed, state a reason
 partial completion preferred over stop -> should write at instance, spare the RAM
 
 
+first write depending on key
+All others append only
+
