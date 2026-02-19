@@ -24,3 +24,5 @@ partial completion preferred over stop -> should write at instance, spare the RA
 first write depending on key
 All others append only
 
+define type
+call a func to write?
