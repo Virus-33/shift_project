@@ -47,7 +47,7 @@ public class Main {
     }
 
     static int read_options(String[] opts) {
-        int result = 0;
+        int result = -1;
 
         for (int i = 0; i < opts.length; i++) {
             String temp = opts[i];
@@ -57,13 +57,13 @@ public class Main {
                     append_mode = true;
                     break;
                 case "-s":
-                    stats_mode = 1;
+                    if (stats_mode != 2) stats_mode = 1;
                     break;
                 case "-f":
                     stats_mode = 2;
                     break;
                 case "-o":
-                    if (i+1 < opts.length) {
+                    if (i+1 < opts.length && !opts[i+1].startsWith("-")) {
                         i++;
                         output_path = opts[i];
                         if (!output_path.endsWith("/")) {
@@ -89,11 +89,11 @@ public class Main {
                         return -4;
                     }
                     result = i;
-                    break;
+                    return result;
             }
         }
 
-        return result == 0 ? result : -1;
+        return result;
     }
 
     static boolean check_errors(int res) {
@@ -127,8 +127,11 @@ public class Main {
         File strings = new File(output_path+output_prefix+"strings.txt");
 
         try(BufferedReader fr = new BufferedReader(new FileReader(file))) {
-            String line = fr.readLine();
+            String line = fr.readLine().stripTrailing();
             while (line != null) {
+
+                line = line.replace("\n", "");
+
                 Types type = define(line);
                 switch (type) {
                     case Types.Integer:
@@ -147,7 +150,7 @@ public class Main {
                 line = fr.readLine();
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            UserMessage.raise_error(e.getMessage());
         }
 
     }
@@ -161,6 +164,7 @@ public class Main {
             String line = fr.readLine();
             while (line != null) {
 
+                line = line.replace("\n", "");
                 Types type = define(line);
 
                 switch (type) {
@@ -183,7 +187,7 @@ public class Main {
                 line = fr.readLine();
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            UserMessage.raise_error(e.getMessage());
         }
     }
 
@@ -221,16 +225,17 @@ public class Main {
     static void write_file(File file, String value, boolean appending) {
 
         try (FileWriter fr = new FileWriter(file, appending)) {
-            fr.write(value);
+            fr.write(value.concat("\n"));
+            fr.flush();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            UserMessage.raise_error(e.getMessage());
         }
 
     }
 
     static Types define(String value) {
-        String digits = "(-?)\\d+";
-        String floats = "(-?)\\d+\\.\\d+([eE]?-?\\d*)?";
+        String digits = "-?\\d+";
+        String floats = "-?\\d+\\.\\d+([eE]?-?\\d*)?";
 
         if (value.matches(digits)) {
             return Types.Integer;

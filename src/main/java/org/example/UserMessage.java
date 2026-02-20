@@ -51,12 +51,17 @@ public class UserMessage {
                 Biggest number: %f
                 Smallest number: %f
                 Sum: %f
-                Average: %f
+                Average: %s
                 Longest string length: %d
                 Shortest string length: %d
                 """, stat.ints, stat.floats, stat.strings,
                      stat.num_max, stat.num_min, stat.num_sum, (stat.ints + stat.floats)/stat.num_sum,
                      stat.longest, stat.shortest);
         System.out.printf("Resulting files located in %s\n", path.isEmpty() ? "program's directory" : path);
+    }
+
+    public static void raise_error(String message) {
+        System.out.println("Can't do!\n" + message);
+        System.exit(0);
     }
 }
